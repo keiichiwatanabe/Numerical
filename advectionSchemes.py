@@ -9,8 +9,8 @@
 # The numpy package for numerical functions and pi
 import numpy as np
 
-def FTCS(phiOld, c, nt):
-    "Linear advection of profile in phiOld using FTCS, Courant number c"
+def FTBS(phiOld, c, nt):
+    "Linear advection of profile in phiOld using FTBS, Courant number c"
     "for nt time-steps"
     
     nx = len(phiOld)
@@ -23,8 +23,8 @@ def FTCS(phiOld, c, nt):
         # Loop through all space using remainder after division (%)
         # to cope with periodic boundary conditions
         for j in range(nx):
-            phi[j] = phiOld[j] - 0.5*c*\
-                     (phiOld[(j+1)%nx] - phiOld[(j-1)%nx])
+            phi[j] = phiOld[j] - c*\
+                     (phiOld[j%nx] - phiOld[(j-1)%nx])
         
         # update arrays for next time-step
         phiOld = phi.copy()

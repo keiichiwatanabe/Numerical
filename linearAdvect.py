@@ -53,11 +53,11 @@ def main():
     phiAnalytic = cosBell((x - c*nt*dx)%(xmax - xmin), 0, 0.75)
 
     # Advect the profile using finite difference for all the time steps
-    phiFTCS = FTCS(phiOld.copy(), c, nt)
+    phiFTBS = FTBS(phiOld.copy(), c, nt)
     
     # Calculate and print out error norms
-    print("FTCS l2 error norm = ", l2ErrorNorm(phiFTCS, phiAnalytic))
-    print("FTCS linf error norm = ", lInfErrorNorm(phiFTCS, phiAnalytic))
+    print("FTBS l2 error norm = ", l2ErrorNorm(phiFTBS, phiAnalytic))
+    print("FTBS linf error norm = ", lInfErrorNorm(phiFTBS, phiAnalytic))
 
     # Plot the solutions
     font = {'size'   : 20}
@@ -68,7 +68,7 @@ def main():
     plt.plot(x, phiOld, label='Initial', color='black')
     plt.plot(x, phiAnalytic, label='Analytic', color='black', 
              linestyle='--', linewidth=2)
-    plt.plot(x, phiFTCS, label='FTCS', color='blue')
+    plt.plot(x, phiFTBS, label='FTBS', color='blue')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylim([-0.2,1.2])
     plt.legend(bbox_to_anchor=(1.15 , 1.1))
