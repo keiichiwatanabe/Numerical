@@ -26,7 +26,8 @@ import matplotlib.pyplot as plt
 # read in all the linear advection schemes, initial conditions and other
 # code associated with this application
 from initialConditions import *
-from advectionSchemes import *
+from FTBSSchemes import *
+from CIPSchemes import *
 from diagnostics import *
 
 ### The main code is inside a function to avoid global variables    ###
@@ -49,18 +50,25 @@ def main():
 
     # Initial conditions
     phiOld = cosBell(x, 0, 0.75)
+
+    phiOldDash = sinBell(x, 0, 0.75)
+
+
     # Exact solution is the initial condition shifted around the domain
     phiAnalytic = cosBell((x - c*nt*dx)%(xmax - xmin), 0, 0.75)
 
     # Advect the profile using finite difference for all the time steps
     phiFTBS = FTBS(phiOld.copy(), c, nt)
+    phiCIP = CIP(phiOld.copy(), phiOldDash.copy(), c, dx, nt)
     
     # Calculate and print out error norms
     print("FTBS l2 error norm = ", l2ErrorNorm(phiFTBS, phiAnalytic))
     print("FTBS linf error norm = ", lInfErrorNorm(phiFTBS, phiAnalytic))
+    print("CIP l2 error norm = ", l2ErrorNorm(phiCIP, phiAnalytic))
+    print("CIP linf error norm = ", lInfErrorNorm(phiCIP, phiAnalytic))
 
     # Plot the solutions
-    font = {'size'   : 20}
+    font = {'size'   : 14}
     plt.rc('font', **font)
     plt.figure(1)
     plt.clf()
@@ -69,6 +77,7 @@ def main():
     plt.plot(x, phiAnalytic, label='Analytic', color='black', 
              linestyle='--', linewidth=2)
     plt.plot(x, phiFTBS, label='FTBS', color='blue')
+    plt.plot(x, phiCIP, label='CIP', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylim([-0.2,1.2])
     plt.legend(bbox_to_anchor=(1.15 , 1.1))
