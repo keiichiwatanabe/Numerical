@@ -1,0 +1,33 @@
+Great start.
+
+Your git commit messages should describe the changes you have made.
+
+Use a .gitignore file so that you do not sotre .pyc or .pdf files in the repository.
+
+Change the name of the file from "changeThisName.pdf".
+
+What does "CIP" stand for? The doc-string says semi-Lagrangian but the code doesn't look like semi-Lagrangian.
+
+I am surprised that the CIP scheme needs dx.
+
+
+I don't know what the formula should be for CIP but yours is dimensioanlly inconsistent with dx in some terms on both the top and the bottom.
+
+Use c**2 and c**3 instead of c*c and c*c*c
+
+Stick to the coding guidelines at
+https://www.dropbox.com/s/yba7pj7woyvv7hs/goodCode.pdf
+and in particular keep your lines less than 80 characters.
+
+In your code:
+        for j in range(nx):
+            phi[j] = phiOld[j] - c*\
+                     (phiOld[j%nx] - phiOld[(j-1)%nx])
+
+you don't need to do phiOld[j%nx]. phiOld[j] will always be ok.
+
+Use the square wave initial conditions as well as the cosine bell as it tests how well schemes advect discontinuities.
+
+You will need to consider more diagnostics for the final report.
+
+I would recommend comparing CIP with CTCS as well as with FTBS. Ideally you should attempt to show that it is better than both of these.
