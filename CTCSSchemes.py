@@ -9,25 +9,31 @@
 # The numpy package for numerical functions and pi
 import numpy as np
 
-def FTBS(phiOld, c, nt):
-    "Linear advection of profile in phiOld using FTBS, Courant number c"
+# FTCS for the first time step
+from FTCSSchemes import *
+
+def CTCS(phiOld, c, nt):
+    "Linear advection of profile in phiOld using CTCS, Courant number c"
     "for nt time-steps"
     
     nx = len(phiOld)
 
-    # new time-step array for phi
-    phi = phiOld.copy()
+    phi = FTCS(phiOld, c, 1)
 
-    # FTCS for each time-step
-    for it in range(nt):
+    # new time-step array for phi
+    phiNew = phiOld.copy()
+
+
+    # CTCS for each time-step
+    for it in range(nt-1):
         # Loop through all space using remainder after division (%)
         # to cope with periodic boundary conditions
         for j in range(nx):
-            phi[j] = phiOld[j] - c*\
-                     (phiOld[j] - phiOld[(j-1)%nx])
+            phiNew[j] = phiOld[j] - c*\
+                     (phi[(j+1)%nx] - phi[(j-1)%nx])
         
         # update arrays for next time-step
         phiOld = phi.copy()
+        phi = phiNew.copy()
 
-    return phi
-
+    return phiNew

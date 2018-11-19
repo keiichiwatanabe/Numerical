@@ -9,25 +9,30 @@
 # The numpy package for numerical functions and pi
 import numpy as np
 
-def FTBS(phiOld, c, nt):
-    "Linear advection of profile in phiOld using FTBS, Courant number c"
-    "for nt time-steps"
-    
+def SM(phiOld, c, nt):
+    "Linear advection of profile in phiOld using the Semi-Lagrangian,"
+    "Courant number c for nt time-steps"
+
     nx = len(phiOld)
 
     # new time-step array for phi
     phi = phiOld.copy()
 
-    # FTCS for each time-step
+    # Semi-Lagrangian for each time-step
     for it in range(nt):
         # Loop through all space using remainder after division (%)
         # to cope with periodic boundary conditions
         for j in range(nx):
-            phi[j] = phiOld[j] - c*\
-                     (phiOld[j] - phiOld[(j-1)%nx])
-        
+            phi[j] = - c**3*(1/6)*\
+                     (phiOld[(j+1)%nx] - 3*phiOld[j]\
+                     + 3*phiOld[(j-1)%nx] - phiOld[(j-2)%nx])\
+                     + c**2*0.5*\
+                     (phiOld[(j+1)%nx] - 2*phiOld[j] + phiOld[(j-1)%nx])\
+                     - c*(1/6)*\
+                     (2*phiOld[(j+1)%nx] + 3*phiOld[j]\
+                     - 6*phiOld[(j-1)%nx] + phiOld[(j-2)%nx]) + phiOld[j]
+
         # update arrays for next time-step
         phiOld = phi.copy()
 
     return phi
-
