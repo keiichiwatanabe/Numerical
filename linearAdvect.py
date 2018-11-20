@@ -59,16 +59,16 @@ def main():
     print("Bell FTBS linf error norm = ", lInfErrorNorm(BellFTBS, BellAnalytic))
     print("Bell CTCS l2 error norm = ", l2ErrorNorm(BellCTCS, BellAnalytic))
     print("Bell CTCS linf error norm = ", lInfErrorNorm(BellCTCS, BellAnalytic))
-    print("Bell SM l2 error norm = ", l2ErrorNorm(BellSM, BellAnalytic))
-    print("Bell SM linf error norm = ", lInfErrorNorm(BellSM, BellAnalytic))
+    print("Bell CSM l2 error norm = ", l2ErrorNorm(BellSM, BellAnalytic))
+    print("Bell CSM linf error norm = ", lInfErrorNorm(BellSM, BellAnalytic))
 
     # Calculate and print out error norms for square wave
     print("Square FTBS l2 error norm = ", l2ErrorNorm(SquareFTBS, SquareAnalytic))
     print("Square FTBS linf error norm = ", lInfErrorNorm(SquareFTBS, SquareAnalytic))
     print("Square CTCS l2 error norm = ", l2ErrorNorm(SquareCTCS, SquareAnalytic))
     print("Square CTCS linf error norm = ", lInfErrorNorm(SquareCTCS, SquareAnalytic))
-    print("Square SM l2 error norm = ", l2ErrorNorm(SquareSM, SquareAnalytic))
-    print("Square SM linf error norm = ", lInfErrorNorm(SquareSM, SquareAnalytic))
+    print("Square CSM l2 error norm = ", l2ErrorNorm(SquareSM, SquareAnalytic))
+    print("Square CSM linf error norm = ", lInfErrorNorm(SquareSM, SquareAnalytic))
 
     # Plot the solutions for cosine bell
     font = {'size'   : 12}
@@ -81,7 +81,7 @@ def main():
              linestyle='--', linewidth=2)
     plt.plot(x, BellFTBS, label='FTBS', color='blue')
     plt.plot(x, BellCTCS, label='CTCS', color='green')
-    plt.plot(x, BellSM, label='SM', color='red')
+    plt.plot(x, BellSM, label='CSM', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylim([-0.2,1.2])
     plt.legend(bbox_to_anchor=(1, 1))
@@ -100,7 +100,7 @@ def main():
              linestyle='--', linewidth=2)
     plt.plot(x, SquareFTBS, label='FTBS', color='blue')
     plt.plot(x, SquareCTCS, label='CTCS', color='green')
-    plt.plot(x, SquareSM, label='SM', color='red')
+    plt.plot(x, SquareSM, label='CSM', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylim([-0.2,1.2])
     plt.legend(bbox_to_anchor=(1 , 1))
@@ -140,13 +140,13 @@ def main():
     plt.ion()
     plt.plot(C, FTBSBellplots, label='FTBS', color='blue')
     plt.plot(C, CTCSBellplots, label='CTCS', color='green')
-    plt.plot(C, SMBellplots, label='SM', color='red')
+    plt.plot(C, SMBellplots, label='CSM', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylabel('L2 error with log scale')
     plt.legend(loc="upper left")
     plt.xlabel('Courant number')
     input('press return to save file for plots of L2 error norms of'
-    'Bell function and continue')
+    ' Bell function and continue')
     plt.savefig('plots/Plots_Error_Bell.pdf')
 
 
@@ -177,13 +177,13 @@ def main():
     plt.ion()
     plt.plot(C, FTBSSquareplots, label='FTBS', color='blue')
     plt.plot(C, CTCSSquareplots, label='CTCS', color='green')
-    plt.plot(C, SMSquareplots, label='SM', color='red')
+    plt.plot(C, SMSquareplots, label='CSM', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylabel('L2 error with log scale')
     plt.legend(loc="upper left")
     plt.xlabel('Courant number')
     input('press return to save file for plots of L2 error norms of'
-    'Square wave and continue')
+    ' Square wave and continue')
     plt.savefig('plots/Plots_Error_Square.pdf')
     
 
