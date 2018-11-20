@@ -25,7 +25,7 @@ def main():
     # Parameters
     xmin = 0
     xmax = 4
-    nx = 201    # Number of points from x=0 to x=1
+    nx = 201    # Number of points from x=0 to x=4
     nt = 100    # Number of time-steps
     c = 0.8     # Courant number
 
@@ -112,24 +112,25 @@ def main():
     C = [-1.5, -1.25, -1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1, 1.25,\
        1.5, 1.75, 2, 2.25, 2.5, 2.75, 3]
     cSize = len(C)
+
+    # Calculate the error norms for square wave
+    FTBSBellplots = np.zeros(cSize)
+    for i in range(cSize):
+        Bell_FTBS = FTBS(BellOld.copy(), C[0] + 0.25*i, nt)
+        FTBSBellplots[i] = np.log(l2ErrorNorm(Bell_FTBS, BellAnalytic))
     
-    FTBSplots = np.zeros(cSize)
-    for i in range(cSize):
-        Square_FTBS = FTBS(SquareOld.copy(), C[0] + 0.25*i, nt)
-        FTBSplots[i] = np.log(l2ErrorNorm(Square_FTBS, SquareAnalytic))
-    
 
-    CTCSplots = np.zeros(cSize)
+    CTCSBellplots = np.zeros(cSize)
     for i in range(cSize):
-        Square_CTCS = CTCS(SquareOld.copy(), C[0] + 0.25*i, nt)
-        CTCSplots[i] = np.log(l2ErrorNorm(Square_CTCS, SquareAnalytic))
+        Bell_CTCS = CTCS(SquareOld.copy(), C[0] + 0.25*i, nt)
+        CTCSBellplots[i] = np.log(l2ErrorNorm(Bell_CTCS, BellAnalytic))
 
-    SMplots = np.zeros(cSize)
+    SMBellplots = np.zeros(cSize)
     for i in range(cSize):
-        Square_SM = SM(SquareOld.copy(), C[0] + 0.25*i, nt)
-        SMplots[i] = np.log(l2ErrorNorm(Square_SM, SquareAnalytic))
+        Bell_SM = SM(BellOld.copy(), C[0] + 0.25*i, nt)
+        SMBellplots[i] = np.log(l2ErrorNorm(Bell_SM, BellAnalytic))
 
-    # Plot the solutions for square wave    
+    # Plot the L2 errors for square wave    
     ax = plt.gca()
     ax.set_yscale('log') 
     font = {'size'   : 12}
@@ -137,25 +138,54 @@ def main():
     plt.figure(1)
     plt.clf()
     plt.ion()
-    plt.plot(C, FTBSplots, label='FTBS', color='blue')
-    plt.plot(C, CTCSplots, label='CTCS', color='green')
-    plt.plot(C, SMplots, label='SM', color='red')
+    plt.plot(C, FTBSBellplots, label='FTBS', color='blue')
+    plt.plot(C, CTCSBellplots, label='CTCS', color='green')
+    plt.plot(C, SMBellplots, label='SM', color='red')
     plt.axhline(0, linestyle=':', color='black')
     plt.ylabel('L2 error with log scale')
     plt.legend(loc="upper left")
     plt.xlabel('Courant number')
-    input('press return to save file for plots of L2 error norms and continue')
-    plt.savefig('plots/Plots_Error.pdf')
+    input('press return to save file for plots of L2 error norms of'
+    'Bell function and continue')
+    plt.savefig('plots/Plots_Error_Bell.pdf')
+
+
+    # Calculate the error norms for square wave
+    FTBSSquareplots = np.zeros(cSize)
+    for i in range(cSize):
+        Square_FTBS = FTBS(SquareOld.copy(), C[0] + 0.25*i, nt)
+        FTBSSquareplots[i] = np.log(l2ErrorNorm(Square_FTBS, SquareAnalytic))
     
 
+    CTCSSquareplots = np.zeros(cSize)
+    for i in range(cSize):
+        Square_CTCS = CTCS(SquareOld.copy(), C[0] + 0.25*i, nt)
+        CTCSSquareplots[i] = np.log(l2ErrorNorm(Square_CTCS, SquareAnalytic))
 
+    SMSquareplots = np.zeros(cSize)
+    for i in range(cSize):
+        Square_SM = SM(SquareOld.copy(), C[0] + 0.25*i, nt)
+        SMSquareplots[i] = np.log(l2ErrorNorm(Square_SM, SquareAnalytic))
 
-
-
-
-
-
-
+    # Plot the L2 errors for square wave    
+    ax = plt.gca()
+    ax.set_yscale('log') 
+    font = {'size'   : 12}
+    plt.rc('font', **font)
+    plt.figure(1)
+    plt.clf()
+    plt.ion()
+    plt.plot(C, FTBSSquareplots, label='FTBS', color='blue')
+    plt.plot(C, CTCSSquareplots, label='CTCS', color='green')
+    plt.plot(C, SMSquareplots, label='SM', color='red')
+    plt.axhline(0, linestyle=':', color='black')
+    plt.ylabel('L2 error with log scale')
+    plt.legend(loc="upper left")
+    plt.xlabel('Courant number')
+    input('press return to save file for plots of L2 error norms of'
+    'Square wave and continue')
+    plt.savefig('plots/Plots_Error_Square.pdf')
+    
 
 
 ### Run the function main defined in this file                      ###
