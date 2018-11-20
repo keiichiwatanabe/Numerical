@@ -29,24 +29,6 @@ def squareWave(x,alpha,beta):
 
     return phi
 
-def squareWaveDash(x,alpha,beta):
-    "A square wave as a function of position, x, which is 1 between alpha"
-    "and beta and zero elsewhere. The initialisation is conservative so"
-    "that each phi contains the correct quantity integrated over a region"
-    "a distance dx/2 either side of x"
-    
-    phi = np.zeros_like(x)
-    
-    # The grid spacing (assumed uniform)
-    dx = x[1] - x[0]
-    
-    # Set phi away from the end points (assume zero at the end points)
-    for j in range(1,len(x)-1):
-        #integral quantity of phi
-        phi[j] = 0
-
-    return phi    
-
 
 def cosBell(x, alpha=0, beta=0.5):
     "Function defining a cosine bell as a function of position, x"
@@ -56,14 +38,3 @@ def cosBell(x, alpha=0, beta=0.5):
     cosbell = lambda x: 0.5*(1 - np.cos(2*np.pi*(x-alpha)/width))
 ### chooses cosbell(x) where condition is true, else chooses zeros     ###
     return np.where((x<beta) & (x>=alpha), cosbell(x), 0.)
-
-
-def sinBell(x, alpha=0, beta=0.5):
-    "Function defining a sinine bell as a function of position, x"
-    "between alpha and beta with default parameters 0, 0.5"
-### The lambda keyword lets you define a function in one line       ###
-    width = beta - alpha
-    sinbell = lambda x: 0.5*np.sin(2*np.pi*(x-alpha)/width)
-### chooses sinbell(x) where condition is true, else chooses zeros     ###
-    return np.where((x<beta) & (x>=alpha), sinbell(x), 0.)
-
